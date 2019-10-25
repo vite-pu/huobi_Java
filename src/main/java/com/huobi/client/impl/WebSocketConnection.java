@@ -74,15 +74,16 @@ public class WebSocketConnection extends WebSocketListener {
     this.secretKey = secretKey;
     this.request = request;
     try {
-      String host = new URI(options.getUri()).getHost();
-      this.tradingHost = host;
-      if (host.indexOf("api") == 0) {
-        this.subscriptionMarketUrl = "wss://" + host + "/ws";
-        this.subscriptionTradingUrl = "wss://" + host + "/ws/v1";
-      } else {
-        this.subscriptionMarketUrl = "wss://" + host + "/api/ws";
-        this.subscriptionTradingUrl = "wss://" + host + "/ws/v1";
-      }
+//      this.tradingHost = host;
+      this.subscriptionMarketUrl = options.getUri();
+      this.subscriptionTradingUrl = options.getUri()+"/v1";
+//      if (host.indexOf("api") == 0) {
+//        this.subscriptionMarketUrl = "wss://" + host + "/ws";
+//        this.subscriptionTradingUrl = "wss://" + host + "/ws/v1";
+//      } else {
+//        this.subscriptionMarketUrl = "wss://" + host + "/api/ws";
+//        this.subscriptionTradingUrl = "wss://" + host + "/ws/v1";
+//      }
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

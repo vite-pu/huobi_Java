@@ -1,6 +1,8 @@
 package com.huobi.client.impl;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
@@ -26,6 +28,13 @@ abstract class RestApiInvoker {
   private static final Logger log = LoggerFactory.getLogger(RestApiInvoker.class);
   private static final OkHttpClient client = new OkHttpClient();
 
+//  private static final OkHttpClient client = getProxyClient();
+
+//  private static OkHttpClient getProxyClient() {
+//    final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//    builder.proxy(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("124.156.132.79",2019)));
+//    return builder.build();
+//  }
   static void checkResponse(JsonWrapper json) {
     try {
       if (json.containKey("status")) {
