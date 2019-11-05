@@ -81,15 +81,17 @@ class RestApiRequestImpl {
     this.secretKey = secretKey;
     this.options = options;
     try {
-      String host = new URL(this.options.getUrl()).getHost();
-      this.tradingHost = host;
-      if (host.indexOf("api") == 0) {
-        this.marketQueryUrl = "https://" + host;
-        this.tradingUrl = "https://" + host;
-      } else {
-        this.marketQueryUrl = "https://" + host + "/api";
-        this.tradingUrl = "https://" + host + "/api";
-      }
+      this.marketQueryUrl = options.getUrl();
+      this.tradingUrl = options.getUrl();
+//      String host = new URL(this.options.getUrl()).getHost();
+      this.tradingHost = "api.huobi.pro";
+//      if (host.indexOf("api") == 0) {
+//        this.marketQueryUrl = "https://" + host;
+//        this.tradingUrl = "https://" + host;
+//      } else {
+//        this.marketQueryUrl = "https://" + host + "/api";
+//        this.tradingUrl = "https://" + host + "/api";
+//      }
     } catch (Exception e) {
     }
   }
