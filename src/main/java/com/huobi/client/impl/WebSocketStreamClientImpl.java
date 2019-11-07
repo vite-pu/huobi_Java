@@ -6,13 +6,7 @@ import com.huobi.client.SubscriptionListener;
 import com.huobi.client.SubscriptionOptions;
 import com.huobi.client.model.enums.BalanceMode;
 import com.huobi.client.model.enums.CandlestickInterval;
-import com.huobi.client.model.event.AccountEvent;
-import com.huobi.client.model.event.CandlestickEvent;
-import com.huobi.client.model.event.OrderUpdateEvent;
-import com.huobi.client.model.event.OrderUpdateNewEvent;
-import com.huobi.client.model.event.PriceDepthEvent;
-import com.huobi.client.model.event.TradeEvent;
-import com.huobi.client.model.event.TradeStatisticsEvent;
+import com.huobi.client.model.event.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -77,6 +71,15 @@ public class WebSocketStreamClientImpl implements SubscriptionClient {
       String symbols,
       SubscriptionListener<PriceDepthEvent> subscriptionListener) {
     subscribePriceDepthEvent(symbols, subscriptionListener, null);
+  }
+
+  @Override
+  public void subscribeTickerEvent(
+          String symbols,
+          SubscriptionListener<TickerEvent> subscriptionListener,
+          SubscriptionErrorHandler errorHandler) {
+      createConnection(requestImpl.subscribeTickerEvent(
+              parseSymbols(symbols), subscriptionListener, errorHandler));
   }
 
   @Override

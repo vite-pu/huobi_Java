@@ -10,14 +10,17 @@ public class Subscribe24HTradeStatistics {
     SubscriptionOptions options = new SubscriptionOptions();
     options.setUri("wss://api.huobi.pro");
     SubscriptionClient subscriptionClient = SubscriptionClient.create("", "", options);
-    subscriptionClient.subscribe24HTradeStatisticsEvent("btcusdt", (statisticsEvent) -> {
-      System.out.println();
-      System.out.println("Timestamp: " + statisticsEvent.getData().getTimestamp());
-      System.out.println("High: " + statisticsEvent.getData().getHigh());
-      System.out.println("Low: " + statisticsEvent.getData().getLow());
-      System.out.println("Open: " + statisticsEvent.getData().getOpen());
-      System.out.println("Close: " + statisticsEvent.getData().getClose());
-      System.out.println("Volume: " + statisticsEvent.getData().getVolume());
-    });
+//    subscriptionClient.subscribe24HTradeStatisticsEvent("btcusdt", (statisticsEvent) -> {
+//      System.out.println();
+//      System.out.println("Timestamp: " + statisticsEvent.getData().getTimestamp());
+//      System.out.println("High: " + statisticsEvent.getData().getHigh());
+//      System.out.println("Low: " + statisticsEvent.getData().getLow());
+//      System.out.println("Open: " + statisticsEvent.getData().getOpen());
+//      System.out.println("Close: " + statisticsEvent.getData().getClose());
+//      System.out.println("Volume: " + statisticsEvent.getData().getVolume());
+//    });
+    subscriptionClient.subscribeTickerEvent("btcusdt,ethusdt", (tickerEvent) -> {
+        System.out.println(tickerEvent.getTicker().toString());
+    }, e -> {});
   }
 }

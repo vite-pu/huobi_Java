@@ -8,14 +8,7 @@ import com.huobi.client.impl.utils.Channels;
 import com.huobi.client.impl.utils.JsonWrapper;
 import com.huobi.client.impl.utils.JsonWrapperArray;
 import com.huobi.client.impl.utils.TimeService;
-import com.huobi.client.model.AccountChange;
-import com.huobi.client.model.Candlestick;
-import com.huobi.client.model.DepthEntry;
-import com.huobi.client.model.Order;
-import com.huobi.client.model.OrderUpdate;
-import com.huobi.client.model.PriceDepth;
-import com.huobi.client.model.Trade;
-import com.huobi.client.model.TradeStatistics;
+import com.huobi.client.model.*;
 import com.huobi.client.model.enums.AccountChangeType;
 import com.huobi.client.model.enums.BalanceMode;
 import com.huobi.client.model.enums.BalanceType;
@@ -25,13 +18,8 @@ import com.huobi.client.model.enums.OrderSource;
 import com.huobi.client.model.enums.OrderState;
 import com.huobi.client.model.enums.OrderType;
 import com.huobi.client.model.enums.TradeDirection;
-import com.huobi.client.model.event.AccountEvent;
-import com.huobi.client.model.event.CandlestickEvent;
-import com.huobi.client.model.event.OrderUpdateEvent;
-import com.huobi.client.model.event.OrderUpdateNewEvent;
-import com.huobi.client.model.event.PriceDepthEvent;
-import com.huobi.client.model.event.TradeEvent;
-import com.huobi.client.model.event.TradeStatisticsEvent;
+import com.huobi.client.model.event.*;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -182,6 +170,49 @@ class WebsocketRequestImpl {
       priceDepth.setBids(bidList);
       priceDepthEvent.setData(priceDepth);
       return priceDepthEvent;
+    };
+    return request;
+  }
+
+  WebsocketRequest<TickerEvent> subscribeTickerEvent(
+          List<String> symbols,
+          SubscriptionListener<TickerEvent> subscriptionListener,
+          SubscriptionErrorHandler errorHandler) {
+    InputChecker.checker().checkSymbolList(symbols).shouldNotNull(subscriptionListener, "listener");
+    WebsocketRequest<TickerEvent> request =
+            new WebsocketRequest<>(subscriptionListener, errorHandler);
+    if (symbols.size() == 1) {
+      request.name = "Ticker for " + symbols;
+    } else {
+      request.name = "Ticker for " + symbols + " ...";
+    }
+    request.connectionHandler = (connection) ->
+            symbols.stream()
+                    .map(Channels::tickerChannel)
+                    .forEach(req -> {
+                      connection.send(req);
+                      await(1);
+                    });
+    request.jsonParser = (jsonWrapper) -> {
+      String ch = jsonWrapper.getString("ch");
+      ChannelParser parser = new ChannelParser(ch);
+      TickerEvent tickerEvent = new TickerEvent();
+      tickerEvent.setTimestamp(
+              TimeService.convertCSTInMillisecondToUTC(jsonWrapper.getLong("ts")));
+      tickerEvent.setSymbol(parser.getSymbol());
+      Ticker ticker = new Ticker();
+      JsonWrapper tick = jsonWrapper.getJsonObject("tick");
+      ticker.setTimestamp(TimeService.convertCSTInMillisecondToUTC(tick.getLong("quoteTime")));
+      ticker.setAsk(tick.getBigDecimal("ask"));
+      ticker.setAskSize(tick.getBigDecimal("askSize"));
+      ticker.setBid(tick.getBigDecimal("bid"));
+      ticker.setBidSize(tick.getBigDecimal("bidSize"));
+      ticker.setSeqId(tick.getLong("seqId"));
+      ticker.setSymbol(tick.getString("symbol"));
+
+      tickerEvent.setTicker(ticker);
+
+      return tickerEvent;
     };
     return request;
   }

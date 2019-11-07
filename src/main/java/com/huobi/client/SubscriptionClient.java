@@ -3,13 +3,7 @@ package com.huobi.client;
 import com.huobi.client.impl.HuobiApiInternalFactory;
 import com.huobi.client.model.enums.BalanceMode;
 import com.huobi.client.model.enums.CandlestickInterval;
-import com.huobi.client.model.event.AccountEvent;
-import com.huobi.client.model.event.CandlestickEvent;
-import com.huobi.client.model.event.OrderUpdateEvent;
-import com.huobi.client.model.event.OrderUpdateNewEvent;
-import com.huobi.client.model.event.PriceDepthEvent;
-import com.huobi.client.model.event.TradeEvent;
-import com.huobi.client.model.event.TradeStatisticsEvent;
+import com.huobi.client.model.event.*;
 
 /***
  * The subscription client interface, it is used for subscribing any market data update and
@@ -58,6 +52,11 @@ public interface SubscriptionClient {
    * update.
    */
   void subscribePriceDepthEvent(String symbols, SubscriptionListener<PriceDepthEvent> callback);
+
+  void subscribeTickerEvent(
+          String symbols,
+          SubscriptionListener<TickerEvent> subscriptionListener,
+          SubscriptionErrorHandler errorHandler);
 
   /**
    * Subscribe price depth event. If the price depth is updated, server will send the data to client

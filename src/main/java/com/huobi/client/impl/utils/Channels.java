@@ -21,6 +21,13 @@ public abstract class Channels {
     return json.toJSONString();
   }
 
+  public static String tickerChannel(String symbol) {
+    JSONObject json = new JSONObject();
+    json.put("sub", "market." + symbol + ".bbo");
+    json.put("id", TimeService.getCurrentTimeStamp() + "");
+    return json.toJSONString();
+  }
+
   public static String tradeChannel(String symbol) {
     JSONObject json = new JSONObject();
     json.put("sub", "market." + symbol + ".trade.detail");
