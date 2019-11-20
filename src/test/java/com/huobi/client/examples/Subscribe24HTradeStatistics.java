@@ -10,7 +10,6 @@ public class Subscribe24HTradeStatistics {
     // Subscribe 24HTradeStatistics with custom server
     SubscriptionOptions options = new SubscriptionOptions();
     SubscriptionClient subscriptionClient = SubscriptionClient.create("", "", options);
-<<<<<<< HEAD
 //    subscriptionClient.subscribe24HTradeStatisticsEvent("btcusdt", (statisticsEvent) -> {
 //      System.out.println();
 //      System.out.println("Timestamp: " + statisticsEvent.getData().getTimestamp());
@@ -23,7 +22,6 @@ public class Subscribe24HTradeStatistics {
     subscriptionClient.subscribeTickerEvent("btcusdt,ethusdt", (tickerEvent) -> {
         System.out.println(tickerEvent.getTicker().toString());
     }, e -> {});
-=======
     subscriptionClient.subscribe24HTradeStatisticsEvent(symbol, (statisticsEvent) -> {
       System.out.println("-------------Subscribe 24H Trade Statistics-------------");
       System.out.println("Timestamp: " + statisticsEvent.getData().getTimestamp());
@@ -43,6 +41,5 @@ public class Subscribe24HTradeStatistics {
       System.out.println("Close: " + statisticsEvent.getData().getClose());
       System.out.println("Volume: " + statisticsEvent.getData().getVolume());
     });
->>>>>>> 99bf9f72f27b9f6b2b051b1573472ce49be6d9f0
   }
 }
