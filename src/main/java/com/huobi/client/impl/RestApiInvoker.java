@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
-import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -60,6 +59,13 @@ abstract class RestApiInvoker {
                 "[Executing] " + err_code + ": " + err_msg);
           }
         }
+      } else if (json.containKey("code")) {
+
+        int code = json.getInteger("code");
+        if (code != 200) {
+          String message = json.getString("message");
+          throw new HuobiApiException(HuobiApiException.EXEC_ERROR, "[Executing] " + code + ": " + message);
+        }
       } else {
         throw new HuobiApiException(
             HuobiApiException.RUNTIME_ERROR, "[Invoking] Status cannot be found in response.");
@@ -77,6 +83,10 @@ abstract class RestApiInvoker {
       String str;
       log.debug("Request URL " + request.request.url());
       Response response = client.newCall(request.request).execute();
+      if (response.code() != 200) {
+        throw new HuobiApiException(
+            HuobiApiException.EXEC_ERROR, "[Invoking] Response Status Error : "+response.code()+" message:"+response.message());
+      }
       if (response != null && response.body() != null) {
         str = response.body().string();
         response.close();

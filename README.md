@@ -6,6 +6,22 @@ The SDK supports both synchronous and asynchronous RESTful API invoking, and sub
 
 
 
+## Huobi Java SDK (change log)
+[Java SDK Change Log](https://github.com/HuobiRDCenter/huobi_Java/blob/master/CHANGE_LOG.md)
+
+
+## Huobi Java SDK Download
+- [Huobi Global API Java SDK version 1.0.5](https://github.com/HuobiRDCenter/huobi_Java/releases/tag/1.0.5)
+
+- [Huobi Global API Java SDK version 1.0.4](https://github.com/HuobiRDCenter/huobi_Java/releases/tag/1.0.4)
+
+- [Huobi Global API Java SDK version 1.0.3](https://github.com/HuobiRDCenter/huobi_Java/releases/tag/1.0.3)
+
+- [Huobi Global API Java SDK version 1.0.2](https://github.com/HuobiRDCenter/huobi_Java/releases/tag/1.0.2)
+
+- [Huobi Global API Java SDK version 1.0.1](https://github.com/HuobiRDCenter/huobi_Java/releases/tag/1.0.1)
+
+
 ## Table of Contents
 
 - [Beginning](#Beginning)
